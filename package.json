@@ -4,7 +4,7 @@
   "description": "Scripts for the Mouse Game.",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npx webpack --config webpack.config.js && go build -o server.exe server/main.go && ./server.exe"
   },
   "repository": {
     "type": "git",
