@@ -2,6 +2,9 @@ const path = require('path');
 
 module.exports = {
   entry: './client/index.ts',
+  experiments: {
+    topLevelAwait: true,
+  },
   module: {
     rules: [
       {
