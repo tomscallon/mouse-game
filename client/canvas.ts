@@ -1,14 +1,10 @@
-function createCanvas(): HTMLCanvasElement {
-  const canvas = document.createElement('canvas');
+const canvas = document.createElement('canvas');
 
-  canvas.style.position = 'fixed';
-  canvas.style.top = '0';
-  canvas.style.left = '0';
-  canvas.style.width = '100%';
-  canvas.style.height = '100%';
-
-  return canvas;
-}
+canvas.style.position = 'fixed';
+canvas.style.top = '0';
+canvas.style.left = '0';
+canvas.style.width = '100%';
+canvas.style.height = '100%';
 
 function syncCanvasSizeWithWindow(canvas: HTMLCanvasElement) {
   canvas.width = window.innerWidth;
@@ -20,27 +16,13 @@ function syncCanvasSizeWithWindow(canvas: HTMLCanvasElement) {
   });
 }
 
-class Canvas {
-  #canvas: HTMLCanvasElement;
-  #attach: Promise<void>;
+const attach = new Promise<void>(resolve => document.addEventListener('DOMContentLoaded', () => {
+  document.body.appendChild(canvas);
+  syncCanvasSizeWithWindow(canvas);
+  resolve();
+}));
 
-  constructor() {
-    this.#canvas = createCanvas();
-
-    this.#attach = new Promise(resolve => document.addEventListener('DOMContentLoaded', () => {
-      document.body.appendChild(this.#canvas);
-      syncCanvasSizeWithWindow(this.#canvas);
-      resolve();
-    }));
-  }
-
-  async attach() {
-    return this.#attach;
-  }
-
-  getContext(): CanvasRenderingContext2D {
-    return this.#canvas.getContext('2d');
-  }
-}
-
-export default new Canvas();
+export async function getCanvas(): Promise<HTMLCanvasElement> {
+  await attach;
+  return canvas;
+};
